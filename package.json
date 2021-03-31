@@ -1,11 +1,10 @@
 {
   "name": "csce489groupproj",
-  "description": "GG's",
   "version": "1.0.0",
+  "description": "GG's",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-    "start": "index.js"
   },
   "repository": {
     "type": "git",
