@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %} - GGs</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+
+    <style>
+        .container {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .navbar {
+            font-size: 24px;
+        }
+
+        .navbar .navbar-brand .navbar-item {
+            margin-top: 1.5vh;
+            margin-bottom: 1.5vh;
+            margin-right: 5vw;
+        }
+
+        .navbar .navbar-menu .navbar-item {
+            margin-top: 1.5vh;
+            margin-bottom: 1.5vh;
+            margin-right: 3vw;
+        }
+
+        .footer .content p, a {
+            font-size: 18px;
+            margin: auto 2vw;
+        }
+    </style>
 </head>
 <body>
     <div class="container is-widescreen">
@@ -30,9 +59,9 @@
         {% block content %}
         {% endblock %}
 
-        <footer class="footer">
+        <footer class="footer is-fixed-botttom">
             <div class="content has-text-centered">
-                <strong>Connect With Us</strong>
+                <p><strong>Created by</strong></p>
                 <a href="#">Ben</a>
                 <a href="#">Ian</a>
                 <a href="#">Mark</a>
