@@ -22,6 +22,13 @@ for game in games:
     data = json.loads(r.text)
     for gamenm in data['results']:
         if game == gamenm['name']:
+            # add logic here for if api cannot return any image
+            # was thinking we use our logo (in github already)
+            #if gamenm['background_image'] == None:
+            #    dictgame[gamenm['name']] = 'ggslogo.png'
+            #else:
+            #    dictgame[gamenm['name']] = gamenm['background_image']
+                
             dictgame[gamenm['name']] = gamenm['background_image']
 
 games_names = list(dictgame)
