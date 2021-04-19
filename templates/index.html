@@ -3,5 +3,76 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h2>Homepage</h2>
+    <br>
+    <p>Welcome to GGs, a video game recommender.</p>
+    <p>To get started enter your username below.</p>
+    <br>
+    <input class="input" type="text" placeholder="Username" style="display: inline;">
+    <br>
+    <input class="button is-dark" type="submit" value="Get Recommendations" style="width: 20vw">
+    <br>
+    <h2 style="font-size: 18px"><strong>Your Recommendations</strong></h2>
+    <br>
+    <div class="columns is-mobile is-multiline is centered">
+        <div class="column">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[0]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src={{dgames[0]}} alt="Game Cover Art">
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[1]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src={{dgames[1]}}  alt="Game Cover Art">
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[2]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src={{dgames[2]}}  alt="Game Cover Art">
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[3]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src={{dgames[3]}}  alt="Game Cover Art">
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[4]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src={{dgames[4]}}  alt="Game Cover Art">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
