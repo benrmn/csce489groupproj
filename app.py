@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import requests
 import json
 import csv
+import urllib3
 
 app = Flask(__name__)
 
@@ -32,7 +33,7 @@ def get_images(games):
                 else:
                    dictgame[gamenm['name']] = gamenm['background_image']
 
-                dictgame[gamenm['name']] = gamenm['background_image']
+                # dictgame[gamenm['name']] = gamenm['background_image']
 
     games_names = list(dictgame)
     vals = dictgame.values()
@@ -48,8 +49,9 @@ def get_user_recs(filename, username):
         for row in csv_reader:
             if row[0] == username:
                 for i in range(1, 6):
+                    print(row[i])
                     top_5_recs.append(row[i])
-            break
+                break
         g_name, g_image = get_images(top_5_recs)
         return g_name, g_image
 
