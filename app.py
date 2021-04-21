@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from collections import OrderedDict
 import requests
 import json
 import csv
@@ -41,6 +42,36 @@ def get_images(games):
 
     return games_names, games_images
 
+def get_links(games):
+    headers = {
+        'User-Agent': 'csce 489 ggs project',
+        'From': 'bramon24@tamu.edu',
+    }
+
+    getid = "https://api.steampowered.com/ISteamApps/GetAppList/v2/"
+
+    r2 = requests.get(getid, headers=headers)
+
+    data = json.loads(r2.text)
+
+    app_ids = {}
+    temp = data['applist']
+
+    for id in temp['apps']:
+        if id['name'] in games:
+            app_ids[id['name']] = id['appid']
+
+    sorted_ids = OrderedDict([(key, app_ids[key]) for key in games])
+    id_to_link = []
+    for id in sorted_ids.values():
+        id_to_link.append(id)
+
+    games_links = games
+    # create https for game
+    link_start = "https://store.steampowered.com/app/"
+    for i in range(len(games)):
+        games_links[i] = link_start + str(id_to_link[i]) + "/" + games_links[i].replace(" ", "_") + "/"
+    return games_links
 
 def get_user_recs(filename, username):
     top_5_recs = []
@@ -58,18 +89,18 @@ def get_user_recs(filename, username):
 
 # default games
 games_names, games_images = get_images(['RIFT', 'Rust', 'Quake Champions', 'Pummel Party', 'Fall Guys: Ultimate Knockout'])
-
+games_links = get_links(['RIFT', 'Rust', 'Quake Champions', 'Pummel Party', 'Fall Guys: Ultimate Knockout'])
 
 @app.route('/')
 def homepage():
-    return render_template("index.html", dgames=games_images, ngames=games_names)
+    return render_template("index.html", dgames=games_images, ngames=games_names, lgames=games_links)
 
 
 @app.route('/recs', methods=['POST'])
 def recs():
     username = request.form['username']
     g_names, g_images = get_user_recs('recommendations.csv', username)
-    return render_template("index.html", dgames=g_images, ngames=g_names)
+    return render_template("index.html", dgames=g_images, ngames=g_names, lgames=games_links)
 
 
 @app.route('/thanks')
