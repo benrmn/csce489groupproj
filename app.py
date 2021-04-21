@@ -28,7 +28,7 @@ def get_images(games):
             if game == gamenm['name']:
                 # add logic here for if api cannot return any image
                 # was thinking we use our logo (in github already)
-                if gamenm['background_image'] == None:
+                if gamenm['background_image'] == '404':
                    dictgame[gamenm['name']] = 'ggslogo.png'
                 else:
                    dictgame[gamenm['name']] = gamenm['background_image']
@@ -56,12 +56,19 @@ def get_user_recs(filename, username):
         return g_name, g_image
 
 
-# default games
-games_names, games_images = get_images(['RIFT', 'Rust', 'Quake Champions', 'Pummel Party', 'Fall Guys: Ultimate Knockout'])
+def get_most_popular():
+    with open('recommendations.csv') as file:
+        csv_reader = csv.reader(file, delimiter=',')
+        top_popular = []
+        for row in csv_reader:
+            for i in range(1, 6):
+                top_popular.append(row[i])
+            return get_images(top_popular)
 
 
 @app.route('/')
 def homepage():
+    games_names, games_images = get_most_popular()
     return render_template("index.html", dgames=games_images, ngames=games_names)
 
 
