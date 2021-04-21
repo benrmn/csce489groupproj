@@ -12,7 +12,7 @@ def get_images(games):
         'From': 'bramon24@tamu.edu',
     }
 
-    games = ['RIFT', 'Rust', 'Quake Champions', 'Pummel Party', 'Fall Guys: Ultimate Knockout']
+    # games = ['RIFT', 'Rust', 'Quake Champions', 'Pummel Party', 'Fall Guys: Ultimate Knockout']
 
     dictgame = {}
     for game in games:
@@ -50,8 +50,8 @@ def get_user_recs(filename, username):
                 for i in range(1, 6):
                     top_5_recs.append(row[i])
             break
-    g_name, g_image = get_images(top_5_recs)
-    return g_name, g_image
+        g_name, g_image = get_images(top_5_recs)
+        return g_name, g_image
 
 
 # default games
