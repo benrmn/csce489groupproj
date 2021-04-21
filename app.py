@@ -9,7 +9,7 @@ headers = {
     'From': 'bramon24@tamu.edu',
 }
 
-games = ['RIFT', 'Minecraft', 'Overwatch', 'Call of Duty: Warzone', 'Fall Guys: Ultimate Knockout']
+games = ['RIFT', 'Rust', 'Quake Champions', 'Pummel Party', 'Fall Guys: Ultimate Knockout']
 
 dictgame = {}
 for game in games:
