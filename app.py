@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests
 import json
 
@@ -35,8 +35,15 @@ games_names = list(dictgame)
 vals = dictgame.values()
 games_images = list(vals)
 
+
 @app.route('/')
 def homepage():
+    return render_template("index.html", dgames=games_images, ngames=games_names)
+
+
+@app.route('/recs', methods=['POST'])
+def recs():
+    username = request.form['username']
     return render_template("index.html", dgames=games_images, ngames=games_names)
 
 

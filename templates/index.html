@@ -7,9 +7,10 @@
     <p>Welcome to GGs, a video game recommender.</p>
     <p>To get started enter your username below.</p>
     <br>
-    <input class="input" type="text" placeholder="Username" style="display: inline;">
-    <br>
-    <input class="button is-dark" type="submit" value="Get Recommendations" style="width: 20vw">
+    <form action="/recs" method="post">
+        <input class="input" type="text" placeholder="Username" name="username" style="display: inline;">
+        <input class="button is-dark" type="submit" value="Get Recommendations" style="width: 20vw">
+    </form>
     <br>
     <h2 style="font-size: 18px"><strong>Your Recommendations</strong></h2>
     <br>
