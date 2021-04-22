@@ -25,16 +25,22 @@ def get_images(games):
         r = requests.get(url, headers=headers, params=payload)
 
         data = json.loads(r.text)
-        for gamenm in data['results']:
-            if game == gamenm['name']:
-                # add logic here for if api cannot return any image
-                # was thinking we use our logo (in github already)
-                if gamenm['background_image'] == '404':
-                   dictgame[gamenm['name']] = 'ggslogo.png'
-                else:
-                   dictgame[gamenm['name']] = gamenm['background_image']
 
-                # dictgame[gamenm['name']] = gamenm['background_image']
+        temp = []
+        for gamenm in data['results']:
+            temp.append(gamenm['name'])
+        if game not in temp:
+            dictgame[game] = 'https://i.ibb.co/3fxbY3D/ggslogo.jpg'
+        else:
+            for gamenm in data['results']:
+                if game == gamenm['name']:
+                    # add logic here for if api cannot return any image
+                    # was thinking we use our logo (in github already)
+                    if not str(gamenm['background_image']):
+                        dictgame[gamenm['name']] = 'check'
+                    else:
+                        dictgame[gamenm['name']] = gamenm['background_image']
+                    # dictgame[gamenm['name']] = gamenm['background_image']
 
     games_names = list(dictgame)
     vals = dictgame.values()
