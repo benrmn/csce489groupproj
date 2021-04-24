@@ -159,36 +159,7 @@ class MF_implicit:
             index = len(ranked[user]) - 1
             cfIndex = len(cfFifty) - 1;
             # populate top 50
-            while (len(curFifty) < 50):
-                """
-                # populate 5 games using implicit feedback
-                if useImplicit:
-                    impGamesAdded = 0
-                    while impGamesAdded < 5:
-                        recGame = popular_mat[popularityIdx]
-                        popularityIdx -= 1
-                        while recGame in curFifty:
-                            recGame = ranked[user][popularityIdx]
-                            popularityIdx -= 1
-                        if train_mat[user][recGame] != 1:
-                            curFifty.append(recGame)
-                            impGamesAdded += 1
-                    useImplicit = False
-                # populate 5 games using popular feedback
-                else:
-                    popGamesAdded = 0
-                    while popGamesAdded < 5:
-                        recGame = ranked[user][index]
-                        index -= 1
-                        while recGame in curFifty:
-                            recGame = ranked[user][index]
-                            index -= 1
-                        if train_mat[user][recGame] != 1:
-                            curFifty.append(recGame)
-                            popGamesAdded += 1
-                    useImplicit = True
-            recommendation[user] = curFifty
-            """
+            while (len(curFifty) < 50): # Populate top 50 using CF and MF hybrid
                 count = 1
                 if count % 2 == 0:
                     recGame = cfFifty[user][cfIndex]
@@ -277,7 +248,7 @@ class MF_implicit:
 mf_implicit = MF_implicit(train_mat, test_mat, latent=5, lr=0.01, reg=0.0001)
 mf_implicit.train(epoch=20)
 
-print("here")
+# User-User CF
 user_train_like = []
 for u in range(num_user):
     user_train_like.append(np.where(train_mat[u, :] > 0)[0])
@@ -300,9 +271,10 @@ for u in range(num_user):
     top50_iid = top50_iid[np.argsort(scores[top50_iid])[-1::-1]]
     cfFifty.append(top50_iid)
 cfFifty = np.array(cfFifty)
-print("here")
 
+# Create top 50 for each user
 recGames = mf_implicit.predict()
+# Metric for accuracy of predictions
 recall = mf_implicit.testRecall()
 print(recall)
 
@@ -323,8 +295,7 @@ with open('recommendations.csv', mode='w', newline='') as recs:
             curGameRecs.append(curGame)
         recs_writer.writerow(curGameRecs)
 
-print("here")
-
+# Ignore
 @app.route('/')
 def MF():
     return recall
