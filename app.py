@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request
 from collections import OrderedDict
+import numpy as np
 import requests
 import json
+import copy
 import csv
 import urllib3
 
@@ -17,8 +19,15 @@ def get_images(games):
     # games = ['RIFT', 'Rust', 'Quake Champions', 'Pummel Party', 'Fall Guys: Ultimate Knockout']
 
     dictgame = {}
-    for game in games:
-        payload = {'search': game}
+    temp_name = ""
+    temp_games = games
+    for game in temp_games:
+        if game == 'Counter-Strike Global Offensive':
+            temp_name = 'Counter-Strike: Global Offensive'
+        else:
+            temp_name = game
+
+        payload = {'search': temp_name}
 
         url = "https://api.rawg.io/api/games?key=c3f3802ae5a145e68a6bc2a687e8f25f"
 
@@ -29,11 +38,12 @@ def get_images(games):
         temp = []
         for gamenm in data['results']:
             temp.append(gamenm['name'])
-        if game not in temp:
-            dictgame[game] = 'https://i.ibb.co/3fxbY3D/ggslogo.jpg'
+
+        if temp_name not in temp:
+            dictgame[temp_name] = 'https://i.ibb.co/3fxbY3D/ggslogo.jpg'
         else:
             for gamenm in data['results']:
-                if game == gamenm['name']:
+                if temp_name == gamenm['name']:
                     # add logic here for if api cannot return any image
                     # was thinking we use our logo (in github already)
                     if not str(gamenm['background_image']):
@@ -50,11 +60,11 @@ def get_images(games):
 
 
 def get_links(games):
+
     headers = {
         'User-Agent': 'csce 489 ggs project',
         'From': 'bramon24@tamu.edu',
     }
-
     getid = "https://api.steampowered.com/ISteamApps/GetAppList/v2/"
     link_start = "https://store.steampowered.com/app/"
 
@@ -64,37 +74,20 @@ def get_links(games):
 
     app_ids = {}
     temp = data['applist']
-
+    games_links = np.empty(len(games), dtype=object)
+    idx = 0
     for id in temp['apps']:
-        if id['name'].replace(':', '') in games:
-            app_ids[id['name'].replace(':', '')] = id['appid']
+        if id['name'] in games or id['name'].replace(':', '') in games:
+            for i in range(len(games)):
+                if games[i] == id['name'] or games[i] == id['name'].replace(':', ''):
+                    idx = i
+            games_links[idx] = link_start + str(id['appid']) + "/"
 
-    if len(app_ids) == len(games):
-        sorted_ids = OrderedDict([(key, app_ids[key]) for key in games])
-        id_to_link = []
-        for id in sorted_ids.values():
-            id_to_link.append(id)
+    for i in range(len(games_links)):
+        if type(games_links[i]) == float:
+            games_links[i] = link_start
 
-        games_links = games
-        # create https for game
-        for i in range(len(games)):
-            games_links[i] = link_start + str(id_to_link[i]) + "/"
-    else:
-        games_links = games
-        temp2 = temp['apps']
-        temp3 = []
-        for i in temp2:
-            temp3.append(i['name'].replace(':', ''))
-        id_to_link = []
-        for key, value in app_ids.items():
-            id_to_link.append(value)
-        idx = 0
-        for i in range(len(games)):
-            if games[i] not in temp3:
-                games_links[i] = link_start
-            else:
-                games_links[i] = link_start + str(id_to_link[idx]) + "/"
-                idx += 1
+    print(games_links)
     return games_links
 
 
@@ -125,18 +118,18 @@ def get_most_popular():
 @app.route('/')
 def homepage():
     games_names, games_images = get_most_popular()
-    print(games_names)
+    temp_names = games_names
     games_links = get_links(games_names)
-    print(games_links)
-    return render_template("index.html", dgames=games_images, ngames=games_names, lgames=games_links)
+    return render_template("index.html", dgames=games_images, ngames=temp_names, lgames=games_links)
 
 
 @app.route('/recs', methods=['POST'])
 def recs():
     username = request.form['username']
     g_names, g_images = get_user_recs('recommendations.csv', username)
+    temp_names = g_names
     games_links = get_links(g_names)
-    return render_template("index.html", dgames=g_images, ngames=g_names, lgames=games_links)
+    return render_template("index.html", dgames=g_images, ngames=temp_names, lgames=games_links)
 
 
 @app.route('/thanks')
