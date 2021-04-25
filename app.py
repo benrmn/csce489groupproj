@@ -56,6 +56,7 @@ def get_links(games):
     }
 
     getid = "https://api.steampowered.com/ISteamApps/GetAppList/v2/"
+    link_start = "https://store.steampowered.com/app/"
 
     r2 = requests.get(getid, headers=headers)
 
@@ -68,16 +69,22 @@ def get_links(games):
         if id['name'] in games:
             app_ids[id['name']] = id['appid']
 
-    sorted_ids = OrderedDict([(key, app_ids[key]) for key in games])
-    id_to_link = []
-    for id in sorted_ids.values():
-        id_to_link.append(id)
+    if len(app_ids) == len(games):
+        sorted_ids = OrderedDict([(key, app_ids[key]) for key in games])
+        id_to_link = []
+        for id in sorted_ids.values():
+            id_to_link.append(id)
 
-    games_links = games
-    # create https for game
-    link_start = "https://store.steampowered.com/app/"
-    for i in range(len(games)):
-        games_links[i] = link_start + str(id_to_link[i]) + "/" + games_links[i].replace(" ", "_") + "/"
+        games_links = games
+        # create https for game
+        for i in range(len(games)):
+            games_links[i] = link_start + str(id_to_link[i]) + "/" + games_links[i].replace(" ", "_") + "/"
+    else:
+        games_links = games
+        temp2 = temp['apps']
+        for i in range(len(games)):
+            if games[i] not in temp2:
+                games_links[i] = link_start
     return games_links
 
 
@@ -108,6 +115,7 @@ def get_most_popular():
 @app.route('/')
 def homepage():
     games_names, games_images = get_most_popular()
+    print(games_names)
     games_links = get_links(games_names)
     return render_template("index.html", dgames=games_images, ngames=games_names, lgames=games_links)
 
