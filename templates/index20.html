@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <br>
+    <p>Welcome to GGs, a video game recommender.</p>
+    <p>To get started enter your username below.</p>
+    <br>
+    <form action="/recs" method="post">
+        <input class="input" type="text" placeholder="Username" name="username" style="display: inline;">
+        <input class="button is-dark" type="submit" value="Get Recommendations" style="width: 20vw; margin-top:1vh">
+    </form>
+    <form action="/25recs" method="post">
+        <input class="button is-dark" type="submit" value="Show More" style="width: 20vw; margin-top:1vh">
+    </form>
+    <br>
+    <h2 style="font-size: 18px"><strong>Showing Recommendations For {{username}} (20/25)</strong></h2>
+    <br>
+    <div class="columns is-mobile is-multiline is centered">
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[0]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[0]}}" target="_blank">
+                        <img src={{dgames[0]}} alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[1]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[1]}}" target="_blank">
+                        <img src={{dgames[1]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[2]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[2]}}" target="_blank">
+                        <img src={{dgames[2]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[3]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[3]}}" target="_blank">
+                        <img src={{dgames[3]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[4]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[4]}}" target="_blank">
+                        <img src={{dgames[4]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[5]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[5]}}" target="_blank">
+                        <img src={{dgames[5]}} alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[6]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[6]}}" target="_blank">
+                        <img src={{dgames[6]}} alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[7]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[7]}}" target="_blank">
+                        <img src={{dgames[7]}} alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[8]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[8]}}" target="_blank">
+                        <img src={{dgames[8]}} alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[9]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[9]}}" target="_blank">
+                        <img src={{dgames[9]}} alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[10]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[10]}}" target="_blank">
+                        <img src={{dgames[10]}} alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[11]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[11]}}" target="_blank">
+                        <img src={{dgames[11]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[12]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[12]}}" target="_blank">
+                        <img src={{dgames[12]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[13]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[13]}}" target="_blank">
+                        <img src={{dgames[13]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[14]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[14]}}" target="_blank">
+                        <img src={{dgames[14]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[15]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[15]}}" target="_blank">
+                        <img src={{dgames[15]}} alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[16]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[16]}}" target="_blank">
+                        <img src={{dgames[16]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[17]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[17]}}" target="_blank">
+                        <img src={{dgames[17]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[18]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[18]}}" target="_blank">
+                        <img src={{dgames[18]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ngames[19]}}</p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                      <a href="{{lgames[19]}}" target="_blank">
+                        <img src={{dgames[19]}}  alt="Game Cover Art">
+                      </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
