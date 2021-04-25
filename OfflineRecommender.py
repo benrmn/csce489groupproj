@@ -7,9 +7,6 @@ import csv
 app = Flask(__name__)
 
 data_df = pd.read_csv('./Steam.csv', sep=',', names=["User ID", "Name", "Type", "Hours"], engine='python')
-# data_df = data_df[data_df["Type"] == "purchase"]
-
-
 unique_GameID = data_df['Name'].unique()
 unique_UserID = data_df['User ID'].unique()
 
@@ -34,7 +31,6 @@ for j in range(len(data_df)):
 data_df = data_df[data_df["Type"] == "purchase"]
 
 # import survey data:
-
 with open("GGs 489 survey.csv", newline='') as f:
     reader = csv.reader(f)
     data = list(reader)
@@ -86,9 +82,6 @@ test_mat = (test_mat > 0).astype(float)
 inv_names = {v: k for k, v in game_old2new_id_dict.items()}
 inv_users = {v: k for k, v in user_old2new_id_dict.items()}
 
-usertest = 12394
-gametest = 0
-
 
 class MF_implicit:
     def __init__(self, train_mat, test_mat, latent=5, lr=0.01, reg=0.01):
@@ -124,7 +117,6 @@ class MF_implicit:
         for ep in range(epoch):
             userList, gameList = self.negative_sampling()
 
-            # See top for source
             temp = list(zip(userList, gameList))
             np.random.shuffle(temp)
             userList, gameList = zip(*temp)
@@ -149,7 +141,7 @@ class MF_implicit:
 
     def predict(self):
         recommendation = np.empty([len(train_mat), 50])
-
+        # predictions based on implicit MF
         prediction_mat = np.matmul(self.P, self.Q.T)
         ranked = np.argsort(prediction_mat)
 
@@ -158,9 +150,10 @@ class MF_implicit:
             curFifty = []
             index = len(ranked[user]) - 1
             cfIndex = len(cfFifty) - 1;
-            # populate top 50
-            while (len(curFifty) < 50): # Populate top 50 using CF and MF hybrid
+            # populate top 50 with alternate CF and MF recommendations
+            while (len(curFifty) < 50):
                 count = 1
+                # recommend CF game
                 if count % 2 == 0:
                     recGame = cfFifty[user][cfIndex]
                     cfIndex -= 1
@@ -169,7 +162,7 @@ class MF_implicit:
                         cfIndex -= 1
                     if train_mat[user][recGame] != 1:
                         curFifty.append(recGame)
-                    # populate 5 games using popular feedback
+                # recommend MF game
                 else:
                     recGame = ranked[user][index]
                     index -= 1
@@ -248,7 +241,6 @@ class MF_implicit:
 mf_implicit = MF_implicit(train_mat, test_mat, latent=5, lr=0.01, reg=0.0001)
 mf_implicit.train(epoch=20)
 
-# User-User CF
 user_train_like = []
 for u in range(num_user):
     user_train_like.append(np.where(train_mat[u, :] > 0)[0])
@@ -272,21 +264,22 @@ for u in range(num_user):
     cfFifty.append(top50_iid)
 cfFifty = np.array(cfFifty)
 
-# Create top 50 for each user
 recGames = mf_implicit.predict()
-# Metric for accuracy of predictions
 recall = mf_implicit.testRecall()
 print(recall)
 
 
+# Write recommendations to an offline CSV
 with open('recommendations.csv', mode='w', newline='') as recs:
     recs_writer = csv.writer(recs, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
+    # Populate first line with 50 most popular games
     popularRecs = ["Popular"]
     for i in range(len(popular_mat) - 1, len(popular_mat) - 51, -1):
         popularRecs.append(inv_names[popular_mat[i]])
     recs_writer.writerow(popularRecs)
 
+    # Recommendations for each user
     for user in range(len(train_mat)):
         curGameRecs = []
         curGameRecs.append(inv_users[user])
@@ -294,6 +287,7 @@ with open('recommendations.csv', mode='w', newline='') as recs:
             curGame = inv_names[game]
             curGameRecs.append(curGame)
         recs_writer.writerow(curGameRecs)
+
 
 # Ignore
 @app.route('/')
