@@ -66,8 +66,8 @@ def get_links(games):
     temp = data['applist']
 
     for id in temp['apps']:
-        if id['name'] in games:
-            app_ids[id['name']] = id['appid']
+        if id['name'].replace(':', '') in games:
+            app_ids[id['name'].replace(':', '')] = id['appid']
 
     if len(app_ids) == len(games):
         sorted_ids = OrderedDict([(key, app_ids[key]) for key in games])
@@ -78,13 +78,23 @@ def get_links(games):
         games_links = games
         # create https for game
         for i in range(len(games)):
-            games_links[i] = link_start + str(id_to_link[i]) + "/" + games_links[i].replace(" ", "_") + "/"
+            games_links[i] = link_start + str(id_to_link[i]) + "/"
     else:
         games_links = games
         temp2 = temp['apps']
+        temp3 = []
+        for i in temp2:
+            temp3.append(i['name'].replace(':', ''))
+        id_to_link = []
+        for key, value in app_ids.items():
+            id_to_link.append(value)
+        idx = 0
         for i in range(len(games)):
-            if games[i] not in temp2:
+            if games[i] not in temp3:
                 games_links[i] = link_start
+            else:
+                games_links[i] = link_start + str(id_to_link[idx]) + "/"
+                idx += 1
     return games_links
 
 
@@ -117,6 +127,7 @@ def homepage():
     games_names, games_images = get_most_popular()
     print(games_names)
     games_links = get_links(games_names)
+    print(games_links)
     return render_template("index.html", dgames=games_images, ngames=games_names, lgames=games_links)
 
 
